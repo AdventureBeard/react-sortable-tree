@@ -240,13 +240,15 @@ export default class DndManager {
         if (!needsRedraw) {
           return;
         }
-
-        this.dragHover({
-          node: draggedNode,
-          path: monitor.getItem().path,
-          minimumTreeIndex: dropTargetProps.listIndex,
-          depth: targetDepth,
-        });
+        cancelAnimationFrame(this.rafId);
+        this.rafId = requestAnimationFrame(() => {
+          this.dragHover({
+            node: draggedNode,
+            path: monitor.getItem().path,
+            minimumTreeIndex: dropTargetProps.listIndex,
+            depth: targetDepth,
+          });
+        })
       },
 
       canDrop: this.canDrop.bind(this),
